@@ -27,7 +27,7 @@ app.use(express.static('public'));
 
 
 // 메일 전송 라우터
-app.post('/send-email', upload.array('files', 10), async (req, res) => {
+app.post('/api/submit', upload.array('files', 10), async (req, res) => {
     const {
         name,
         contact,
@@ -81,3 +81,13 @@ ${message}
 });
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+
+
+
+//프론트백엔드 연동
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
+
