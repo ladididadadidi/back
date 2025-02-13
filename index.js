@@ -1,13 +1,10 @@
-const express = require('express');
-const multer = require('multer');
-const nodemailer = require('nodemailer');
-const cors = require('cors');
-
-const app = express();
-
+import express from 'express';
+import multer from 'multer';
+import nodemailer from 'nodemailer';
+import cors from 'cors';
 import fetch from 'node-fetch';  // ES 모듈 방식으로 변경
 
-const response = await fetch('https://back-i4i2.onrender.com');
+const app = express();
 
 // 파일 크기 제한을 10MB로 설정
 const upload = multer({
@@ -46,19 +43,16 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
         content: file.buffer,
     })) : [];
 
-
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
         },
-
         debug: true,   // 🟢 디버깅 활성화
         logger: true,  // 🟢 로그 기록 활성화
-        
     });
-    
+
     console.log("✅ EMAIL_USER:", process.env.EMAIL_USER);
     console.log("✅ EMAIL_PASS:", process.env.EMAIL_PASS ? "🔒 Loaded" : "❌ Not Loaded");
 
@@ -95,11 +89,7 @@ app.listen(port, '0.0.0.0', () => {  // ✅ '0.0.0.0'으로 변경
     console.log(`✅ Server running on port ${port}`);
 });
 
-
 // 서버가 일정 시간 간격으로 ping을 받도록 설정
-
-const fetch = require('node-fetch'); // node-fetch 모듈을 가져옴
-
 setInterval(() => {
     fetch('https://back-i4i2.onrender.com') // 백엔드 주소를 실제로 입력
         .then(response => console.log('Pinged server:', response.status))
