@@ -6,38 +6,26 @@ const cors = require('cors');
 
 const app = express();
 
-
 // 파일 크기 제한을 10MB로 설정
 const upload = multer({
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
-  });
+});
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 루트 경로 처리
-app.get('/', (req, res) => {
-    res.send('Hello World!'); // 루트 경로에서 반환할 메시지
-
-    // 정적 파일을 서빙하는 방법 (예: 'public' 폴더)
+// 정적 파일을 서빙하는 방법 (예: 'public' 폴더)
 app.use(express.static('public'));
 
+// 루트 경로 처리
+app.get('/', (req, res) => {
+    res.send('Hello World!');
 });
-
 
 // 메일 전송 라우터
 app.post('/api/submit', upload.array('files', 10), async (req, res) => {
-    const {
-        name,
-        contact,
-        person,
-        character,
-        location,
-        date,
-        contactMethod,
-        message,
-    } = req.body;
+    const { name, contact, person, character, location, date, contactMethod, message } = req.body;
 
     // 첨부 파일 처리
     const attachments = req.files.map((file) => ({
@@ -56,7 +44,7 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
     try {
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
-            to: 'siupri125@gmail.com', // 받는 사람 이메일
+            to: 'siupri125@gmail.com', // 받는 사람 이메일 주소
             subject: `촬영 문의 - ${name}`,
             text: `
 SNS 계정: ${name}
@@ -80,14 +68,8 @@ ${message}
     }
 });
 
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
-
-
-
-//프론트백엔드 연동
-
+// 서버 포트 설정
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
-
