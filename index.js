@@ -6,6 +6,9 @@ const cors = require('cors');
 
 const app = express();
 
+import fetch from 'node-fetch';
+
+
 // 파일 크기 제한을 10MB로 설정
 const upload = multer({
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
