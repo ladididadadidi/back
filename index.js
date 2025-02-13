@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const nodemailer = require('nodemailer');
-require('dotenv').config();
+/*require('dotenv').config();*/
 const cors = require('cors');
 
 const app = express();
@@ -38,10 +38,10 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
     const { name, contact, person, character, location, date, contactMethod, message } = req.body;
 
     // 첨부 파일 처리
-    const attachments = req.files.map((file) => ({
+    const attachments = req.files ? req.files.map((file) => ({
         filename: file.originalname,
         content: file.buffer,
-    }));
+    })) : [];
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -50,6 +50,7 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
             pass: process.env.EMAIL_PASS,
         },
     });
+
 
     try {
         await transporter.sendMail({
@@ -73,13 +74,13 @@ ${message}
 
         res.status(200).send('문의가 성공적으로 전송되었습니다!');
     } catch (error) {
-        console.error(error);
+        console.error('메일 전송 실패:', error);  // 오류 로그 추가
         res.status(500).send('문의 전송에 실패했습니다.');
     }
 });
 
 // 서버 포트 설정
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;  // 포트는 환경 변수로 설정하거나 기본값 3000을 사용
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
