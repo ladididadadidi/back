@@ -1,12 +1,10 @@
 const express = require('express');
 const multer = require('multer');
 const nodemailer = require('nodemailer');
-/*require('dotenv').config();*/
 const cors = require('cors');
 
 const app = express();
 
-import fetch from 'node-fetch';
 
 
 // 파일 크기 제한을 10MB로 설정
