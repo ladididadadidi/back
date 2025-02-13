@@ -91,3 +91,14 @@ const port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {  // ✅ '0.0.0.0'으로 변경
     console.log(`✅ Server running on port ${port}`);
 });
+
+
+// 서버가 일정 시간 간격으로 ping을 받도록 설정
+
+const fetch = require('node-fetch'); // node-fetch 모듈을 가져옴
+
+setInterval(() => {
+    fetch('https://back-i4i2.onrender.com') // 백엔드 주소를 실제로 입력
+        .then(response => console.log('Pinged server:', response.status))
+        .catch(error => console.error('Ping error:', error));
+}, 600000); // 10분마다 실행 (600000ms = 10분)
