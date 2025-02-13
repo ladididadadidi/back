@@ -43,6 +43,10 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
         content: file.buffer,
     })) : [];
 
+    console.log("✅ EMAIL_USER:", process.env.EMAIL_USER);
+    console.log("✅ EMAIL_PASS:", process.env.EMAIL_PASS);
+
+
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -80,7 +84,7 @@ ${message}
 });
 
 // 서버 포트 설정
-const port = process.env.PORT || 3000;  // 포트는 환경 변수로 설정하거나 기본값 3000을 사용
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+const port = process.env.PORT || 3000;  
+app.listen(port, '0.0.0.0', () => {  // ✅ '0.0.0.0'으로 변경
+    console.log(`✅ Server running on port ${port}`);
 });
