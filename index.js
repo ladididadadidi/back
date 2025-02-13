@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const app = express();
 
+import fetch from 'node-fetch';  // ES 모듈 방식으로 변경
 
 
 // 파일 크기 제한을 10MB로 설정
