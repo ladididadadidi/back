@@ -53,6 +53,9 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
         },
+        debug: true,   // 🟢 디버깅 활성화
+        logger: true,  // 🟢 로그 기록 활성화
+});
     });
 
 
