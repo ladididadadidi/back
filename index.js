@@ -11,7 +11,17 @@ const upload = multer({
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
 });
 
-app.use(cors());
+// CORS 설정: 프론트엔드 도메인만 허용 (필요에 맞게 수정)
+const corsOptions = {
+    origin: 'https://back-i4i2.onrender.com', // 실제 프론트엔드 주소로 변경
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+};
+
+// CORS 미들웨어 적용
+app.use(cors(corsOptions));
+
+// JSON 및 URL 인코딩된 데이터 처리
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -44,7 +54,7 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
     try {
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
-            to: 'siupri125@gmail.com', // 받는 사람 이메일 주소
+            to: 'siupri125@gmail.com', // 받는 사람 이메일 주소 (필요에 맞게 수정)
             subject: `촬영 문의 - ${name}`,
             text: `
 SNS 계정: ${name}
