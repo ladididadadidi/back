@@ -43,9 +43,6 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
         content: file.buffer,
     })) : [];
 
-    console.log("✅ EMAIL_USER:", process.env.EMAIL_USER);
-    console.log("✅ EMAIL_PASS:", process.env.EMAIL_PASS);
-
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -53,11 +50,14 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
         },
+
         debug: true,   // 🟢 디버깅 활성화
         logger: true,  // 🟢 로그 기록 활성화
-});
+        
     });
-
+    
+    console.log("✅ EMAIL_USER:", process.env.EMAIL_USER);
+    console.log("✅ EMAIL_PASS:", process.env.EMAIL_PASS ? "🔒 Loaded" : "❌ Not Loaded");
 
     try {
         await transporter.sendMail({
