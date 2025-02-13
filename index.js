@@ -7,6 +7,7 @@ const app = express();
 
 import fetch from 'node-fetch';  // ES 모듈 방식으로 변경
 
+const response = await fetch('https://back-i4i2.onrender.com');
 
 // 파일 크기 제한을 10MB로 설정
 const upload = multer({
