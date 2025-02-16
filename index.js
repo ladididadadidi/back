@@ -69,6 +69,7 @@ SNS 계정: ${name}
 희망 촬영 장소: ${location}
 희망 촬영일: ${date}
 연락 수단: ${contactMethod}
+연락 방법: ${snsid}
 
 문의사항:
 ${message}
@@ -89,9 +90,3 @@ app.listen(port, '0.0.0.0', () => {  // ✅ '0.0.0.0'으로 변경
     console.log(`✅ Server running on port ${port}`);
 });
 
-// 서버가 일정 시간 간격으로 ping을 받도록 설정
-setInterval(() => {
-    fetch('https://back-i4i2.onrender.com') // 백엔드 주소를 실제로 입력
-        .then(response => console.log('Pinged server:', response.status))
-        .catch(error => console.error('Ping error:', error));
-}, 600000); // 10분마다 실행 (600000ms = 10분)
