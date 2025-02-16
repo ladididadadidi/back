@@ -13,7 +13,7 @@ const upload = multer({
 
 // CORS 설정: 프론트엔드 도메인만 허용 (필요에 맞게 수정)
 const corsOptions = {
-    origin: 'https://back-i4i2.onrender.com', // 실제 프론트엔드 주소로 변경
+    origin: 'ratespopol.netlify.app', // 실제 프론트엔드 주소로 변경
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
 };
