@@ -2,7 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import nodemailer from 'nodemailer';
 import cors from 'cors';
-import fetch from 'node-fetch';  // ES 모듈 방식으로 변경
+import 'dotenv/config'; // 환경 변수 로드 추가
 
 const app = express();
 
@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
 
 // 메일 전송 라우터
 app.post('/api/submit', upload.array('files', 10), async (req, res) => {
-    const { name, contact, person, character, location, date, contactMethod, message } = req.body;
+    const { name, contact, person, character, location, date, contactMethod, snsid, message } = req.body;
 
     // 첨부 파일 처리
     const attachments = req.files ? req.files.map((file) => ({
@@ -43,14 +43,16 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
         content: file.buffer,
     })) : [];
 
+    console.log("📎 업로드된 파일 수:", req.files ? req.files.length : 0); // 파일 로그 추가
+
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
         },
-        debug: true,   // 🟢 디버깅 활성화
-        logger: true,  // 🟢 로그 기록 활성화
+        debug: false, // 프로덕션 환경에서 비활성화
+        logger: false,
     });
 
     console.log("✅ EMAIL_USER:", process.env.EMAIL_USER);
@@ -59,7 +61,7 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
     try {
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
-            to: 'siupri125@gmail.com', // 받는 사람 이메일 주소 (필요에 맞게 수정)
+            to: process.env.RECEIVER_EMAIL, // 받는 사람 이메일 주소 (필요에 맞게 수정)
             subject: `촬영 문의 - ${name}`,
             text: `
 SNS 계정: ${name}
