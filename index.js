@@ -53,17 +53,17 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
             to: process.env.RECEIVER_EMAIL, // 받는 사람 이메일 주소 (필요에 맞게 수정)
             subject: `촬영 문의 - ${name}`,
             text: `
-SNS 계정: ${name}
-촬영 종류: ${contact}
-촬영 인원: ${person}
-촬영 캐릭터/컨셉: ${character}
-희망 촬영 장소: ${location}
-희망 촬영일: ${date}
-연락 수단: ${contactMethod}
-연락 방법: ${snsid}
+                    SNS 계정: ${name}
+                    촬영 종류: ${contact}
+                    촬영 인원: ${person}
+                    촬영 캐릭터/컨셉: ${character}
+                    희망 촬영 장소: ${location}
+                    희망 촬영일: ${date}
+                    연락 수단: ${contactMethod}
+                    연락 방법: ${snsid}
 
-문의사항:
-${message}
+                    문의사항:
+                            ${message}
             `,
             attachments, // 첨부 파일 추가
         });
