@@ -35,15 +35,9 @@ app.get('/', (req, res) => {
 
 // 메일 전송 라우터
 app.post('/api/submit', upload.array('files', 10), async (req, res) => {
+    console.log('📩 /api/submit 호출됨', req.body); // 요청 디버깅
     const { name, contact, person, character, location, date, contactMethod, snsid, message } = req.body;
-
-    // 첨부 파일 처리
-    const attachments = req.files ? req.files.map((file) => ({
-        filename: file.originalname,
-        content: file.buffer,
-    })) : [];
-
-    console.log("📎 업로드된 파일 수:", req.files ? req.files.length : 0); // 파일 로그 추가
+    const attachments = req.files ? req.files.map(file => ({ filename: file.originalname, content: file.buffer })) : [];
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -51,12 +45,7 @@ app.post('/api/submit', upload.array('files', 10), async (req, res) => {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
         },
-        debug: false, // 프로덕션 환경에서 비활성화
-        logger: false,
     });
-
-    console.log("✅ EMAIL_USER:", process.env.EMAIL_USER);
-    console.log("✅ EMAIL_PASS:", process.env.EMAIL_PASS ? "🔒 Loaded" : "❌ Not Loaded");
 
     try {
         await transporter.sendMail({
