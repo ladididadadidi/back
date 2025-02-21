@@ -13,7 +13,7 @@ const upload = multer({
 
 // CORS 설정 (프론트엔드 Netlify 도메인 허용)
 app.use(cors({
-    origin: 'https://radididadadidi.netlify.app', // 실제 Netlify 도메인으로 변경
+    origin: 'https://ratespopol.netlify.app', // 실제 Netlify 도메인으로 변경
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
 }));
